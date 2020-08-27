@@ -6,7 +6,7 @@
       <div id="data"></div>
     </b-container>
     <!-- <h2>{{ getData }}</h2> -->
-    <b-col cols="12" class="text-center mb-3">
+    <b-col cols="12" class="text-center mb-2">
       <b-button variant="warning" @click="reset">Reset</b-button>
     </b-col>
   </div>
@@ -31,15 +31,15 @@ var margin = {
   left: 75,
   top: 50,
   right: 50,
-  bottom: 400,
+  bottom: 200,
 };
 var margin2 = {
   left: 75,
-  top: 600,
+  top: 450,
   right: 50,
   bottom: 50,
 };
-var height = 900,
+var height = 600,
   width = 960;
 var innerWidth = width - margin.left - margin.right,
   innerHeight = height - margin.top - margin.bottom,
@@ -67,6 +67,16 @@ export default {
       d3.select("#title").text(process.join(" → "));
 
       d3.select("#title-response").text(time + " s");
+      let initial_transmittance = this.global_result["pecd"]["initial_transmittance"];
+      let fianl_transmittance = this.global_result["pecd"]["fianl_transmittance"];
+
+      d3.select("#start-transmittance")
+      .attr('y', yScale1(initial_transmittance-3))
+      .text(initial_transmittance+'%')
+
+      d3.select("#end-transmittance")
+      .attr('y', yScale1(fianl_transmittance-3))
+      .text(fianl_transmittance+'%')
     },
     getData: function (new_value, old_value) {
       console.log("new: ", new_value, ", old: ", typeof old_value.main);
@@ -108,6 +118,8 @@ export default {
         const xScale = d3.scaleLinear().range([0, innerWidth]);
 
         const yScale = d3.scaleLinear().range([innerHeight, 0]);
+
+        yScale1 = yScale;
 
         xScale2.domain([0, d3.max(datas__, (d) => parseFloat(d.Time))]);
         yScale2.domain([
@@ -280,6 +292,27 @@ export default {
           .attr("y", margin.top / 2 + 10)
           .attr("text-anchor", "end")
           .style("font-size", "20px")
+          .text("");
+
+        // Transmittance
+        context
+          .append("text")
+          .attr("id", "start-transmittance")
+          .attr("x", margin.left - 70)
+          .attr("y", 0)
+          .attr("text-anchor", "start")
+          .style("font-size", "15px")
+          .style('fill', 'green')
+          .text("");
+        
+        context
+          .append("text")
+          .attr("id", "end-transmittance")
+          .attr("x", innerWidth)
+          .attr("y", 0)
+          .attr("text-anchor", "end")
+          .style("font-size", "15px")
+          .style('fill', 'green')
           .text("");
 
         function brushed() {

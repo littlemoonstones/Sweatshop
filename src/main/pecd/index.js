@@ -22,7 +22,7 @@ function createChildWindow(parentWindow) {
   if (childWindows.length == 0) {
     childWindow = new BrowserWindow({
       //   title: "hello-child",
-      height: 960,
+      height: 670,
       useContentSize: true,
       width: 400,
       frame: false,

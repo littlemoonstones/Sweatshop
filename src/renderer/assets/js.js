@@ -93,6 +93,7 @@ function Results(datas, x1, x2) {
     // Determine bleaching or coloring process
     let init_time = x_range_data[0]
     let init_transmittance = y_range_data[0]
+    var fianl_transmittance = y_range_data[y_range_data.length-1] // 2020/08/27 Fixed
     let ideal_transmittance, real_transmittance, real_time, response_time
     let real_transmittance_index
 
@@ -101,7 +102,8 @@ function Results(datas, x1, x2) {
     //  Bleaching -> Coloring
     if (init_transmittance > range_data_avg) {
         process = "Bleaching -> Coloring"
-        ideal_transmittance = (Math.min(...y_range_data) - init_transmittance) * 0.95 + init_transmittance;
+        // ideal_transmittance = (Math.min(...y_range_data) - init_transmittance) * 0.95 + init_transmittance;
+        ideal_transmittance = (fianl_transmittance - init_transmittance) * 0.95 + init_transmittance;
         real_transmittance_index = UpperBound(y_range_data, ideal_transmittance)
         real_transmittance = y_range_data[real_transmittance_index]
 
@@ -111,7 +113,8 @@ function Results(datas, x1, x2) {
     }
     else if (init_transmittance < range_data_avg) {
         process = "Coloring -> Bleaching"
-        ideal_transmittance = (Math.max(...y_range_data) - init_transmittance) * 0.95 + init_transmittance;
+        // ideal_transmittance = (Math.max(...y_range_data) - init_transmittance) * 0.95 + init_transmittance;
+        ideal_transmittance = (fianl_transmittance - init_transmittance) * 0.95 + init_transmittance;
         real_transmittance_index = UpperBound(y_range_data, ideal_transmittance)
         real_transmittance = y_range_data[real_transmittance_index]
 

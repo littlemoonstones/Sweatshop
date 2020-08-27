@@ -16,15 +16,21 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
+ 
+var DragWindowHeight = 620
+var DragWindowWidth = 600
+
+var chartWindowHeight = 670
+var chartWindowWidth = 960
 function createWindow() {
   console.log(`${__dirname}`)
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 620,
+    height: DragWindowHeight,
     useContentSize: true,
-    width: 600,
+    width: DragWindowWidth,
     frame: false,
     resizable: false
   })
@@ -67,14 +73,12 @@ ipcMain.on('open-child', () => {
 })
 
 ipcMain.on('setWindowSizeChart', () => {
-  mainWindow.setSize(960, 1000, true)
+  mainWindow.setSize(chartWindowWidth, chartWindowHeight, true)
 })
 
 ipcMain.on('setWindowSizeDrag', () => {
-  let width = 600;
-  let height = 620
-  mainWindow.setMinimumSize(width, height)
-  mainWindow.setSize(width, height, true)
+  mainWindow.setMinimumSize(DragWindowWidth, DragWindowHeight)
+  mainWindow.setSize(DragWindowWidth, DragWindowHeight, true)
 })
 
 ipcMain.on('minimize', () => {
